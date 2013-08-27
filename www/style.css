@@ -1,0 +1,161 @@
+body{
+    color: rgb(30,30,30);
+    background-color: #678404;
+    background-image: url('bg3.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    text-align: center;
+    font-family: 'Aladin', cursive;
+}
+footer{
+    font-size: small;
+    text-align: center;
+    color: rgb(200,200,200);
+    clear: both;
+    position: relative;
+    z-index: 10;
+    height: 3em;
+    margin-top: -3em;
+    background-color: rgb(0,0,0);
+    border-radius: 5px;
+}
+h1{
+    padding-bottom: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: inline;
+    font-family: 'MedievalSharp', cursive;
+}
+li{
+    text-align: left;
+    font-family: monospace;
+    white-space: pre;
+}
+ul{
+    list-style: none;
+}
+progress{
+    width: 400px;
+    appearance: none;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+    border: none;
+    background: white; /*rgb(127,127,127);*/
+}
+/* Chrome */
+progress::-webkit-progress-bar {
+    background: white; /*rgb(127,127,127);*/
+}
+/* IE10 */
+progress {
+    color: green;
+}
+
+/* Firefox */
+progress::-moz-progress-bar { 
+    background: green;	
+}
+
+/* Chrome */
+progress::-webkit-progress-value {
+    background: green;
+}
+progress.dejugador{
+    height: 5px;
+}
+#columnaDerecha{
+    float: right;
+    display: inline-block;
+    padding: 0px 25px 0px 25px;
+    border-radius: 15px;
+    width: 350px;
+    border-style: solid;
+    border-color: rgb(191,255,255) rgb(191,255,255) yellow yellow;
+    border-width: 8px;
+    
+    background-image: linear-gradient(left bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -o-linear-gradient(left bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -moz-linear-gradient(left bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -webkit-linear-gradient(left bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -ms-linear-gradient(left bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+
+    background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    right top,
+	    color-stop(0.19, rgb(255,255,0)),
+	    color-stop(1, rgb(191,255,255))
+    );
+}
+.listadotophistorico{
+    font-family: 'MedievalSharp', cursive;
+    font-size: 24px;
+}
+#columnaIzquierda{
+    float: left;
+    display: inline-block;
+    padding: 0px 25px 0px 25px;
+    border-radius: 15px;
+    width: 480px;
+    border-style: solid;
+    border-color: rgb(191,255,255) yellow yellow rgb(191,255,255);
+    border-width: 8px;
+    
+    background-image: linear-gradient(right bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -o-linear-gradient(right bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -moz-linear-gradient(right bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -webkit-linear-gradient(right bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+    background-image: -ms-linear-gradient(right bottom, rgb(255,255,0) 19%, rgb(191,255,255) 100%);
+
+    background-image: -webkit-gradient(
+	    linear,
+	    right bottom,
+	    left top,
+	    color-stop(0.19, rgb(255,255,0)),
+	    color-stop(1, rgb(191,255,255))
+    );
+}
+.vitrina {
+    width : 300px;
+    height : 100px;
+    border : solid 2px #0f0f0f;
+}
+#opciones{
+    position:absolute;
+    left:0px;
+    top:0px;
+    padding: 5px;
+    background-color: rgba(255,255,255,.5);
+}
+.opcion{
+    cursor: pointer;
+}
+.opcion:hover{
+    background-color: rgb(200,255,200);
+}
+.opcionactiva{
+    color: green;
+    background-color: white;
+}
+.opcioninactiva{
+    color: rgb(127,127,127);
+}
+#boton{
+    cursor: pointer;
+    margin-bottom: 10px;
+    height: 100px;
+    width: 100px;
+}
+p{
+    margin: 0;
+    font-size: small;
+}
+.decoracionNombre{
+    height: 25px;
+    width: 150px;
+    padding-top: 20px;
+}
+.cabecera{
+    margin: auto;
+    background-color: red;
+}
