@@ -1,0 +1,219 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+#El Rey de la Colina cgi
+import socket,os,sys,json
+from roman import *
+
+PORT = 15556
+HOST = '127.0.0.1'
+
+def showServerErrorPage():
+    print "<!doctype html>"
+    print "<html>"
+    print "<head>"
+    print "<title>El Rey de la Colina</title>"
+    print "<link href='../style.css' rel='stylesheet' type='text/css'>"
+    print "<meta charset='utf-8'>"
+    print "<link href='http://fonts.googleapis.com/css?family=Aladin' rel='stylesheet' type='text/css'>"
+    print "</head>"
+    print "<body>"
+    print "<div id='cabecera'>"
+    print "    <img src='../goldl.png' class='decoracionNombre block'></img>"
+    print "    <h1 class='block'>¡Ups!</h1>"
+    print "    <img src='../goldr.png' class='decoracionNombre block'></img>"
+    print "</div>"
+    print "<h2>Hubo un problema conectando con el servidor del juego.<h2>"
+try:
+    QUERY_STRING = os.environ['QUERY_STRING']
+except KeyError:
+    print "WARNING: no query_string in os.environ"
+
+print "Content-Type:text/html\r\n\r\n"
+
+if QUERY_STRING=='test':
+    print "<!doctype html>"
+    print "<html>"
+    print "<head>"
+    print "<title>El Rey de la Colina</title>"
+    print "<link href='../style.css' rel='stylesheet' type='text/css'>"
+    print "<meta charset='utf-8'>"
+    print "<link href='http://fonts.googleapis.com/css?family=Aladin' rel='stylesheet' type='text/css'>"
+    print "</head>"
+    print "<body>"
+    print "<div id='cabecera'>"
+    print "    <img src='../goldl.png' class='decoracionNombre block'></img>"
+    print "    <h1 class='block'>Menganito</h1>"
+    print "    <img src='../goldr.png' class='decoracionNombre block'></img>"
+    print "</div>"
+    print "<h2>es el rey de la colina</h2>"
+    print "<img src='../logo.png' id='boton' onmouseover='this.src=\"../logo2.png\"' onmouseout='this.src=\"../logo.png\"'></img>"
+    print "<form>"
+    print "Escribe tu nombre: <input type=\"text\" name=\"nombre\">"
+    print "<input type=\"radio\" name=\"sexo\" value=\"hombre\">Rey"
+    print "<input type=\"radio\" name=\"sexo\" value=\"mujer\">Reina"
+    print "</form>"
+    print "<p>Se admiten letras y espacios. Máximo 20 caracteres.</p>"
+    print "<div id='contenedor'>"
+    print "<div id='columnaIzquierda'>"
+    print "<h3>Ranking de esta semana</h3>"
+    print "<ul>"
+    print "<li>1.  Menganito       (4221 minutos)</li>"
+    print "</ul>"
+    print "</div>"
+    print "<div id='columnaDerecha'>"
+    print "<h3>Top campeones</h3>"
+    print "<ul>"
+    print "<li>1.  Menganito       (4 reinados)</li>"
+    print "</ul>"
+    print "</div>"
+    print "</div>"   
+    print "<footer>El Rey de la Colina es una idea de Antonio Caro hecha realidad por Bruno Alba.</footer>"
+    print "</body>"
+    print "</html>"
+else:
+    if (QUERY_STRING==''):
+        QUERY_STRING = 'refresh'
+    #print "Your query is %r"%QUERY_STRING
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    #print "Connecting to %s:%d"%(HOST,PORT)
+    try:
+        s.connect((HOST,PORT))
+    except socket.error:
+        showServerErrorPage()
+        sys.exit()
+    #print "Connection established",s.getsockname()
+    #print "Sending your query..."
+    s.sendall(QUERY_STRING)
+    incomingmessage = s.recv(999)
+    #print "Server response:",repr(incomingmessage)
+    s.close()
+    incomingdata = json.loads(incomingmessage)
+    """
+    print incomingmessage    
+    print 'Los jugadores son:'
+    for cosa in incomingdata[0]:
+        print 'Nombre:',cosa[0],"Sexo:",cosa[1],"Segundos:",cosa[2]
+    print 'El rey es',incomingdata[1][0],'y tiene sexo',incomingdata[1][1]
+    print 'Los campeones son:'
+    for cosa in incomingdata[2]:
+        print 'Nombre:',cosa[0],"Veces campeon:",cosa[1]
+    """
+    print "<!doctype html>"
+    print "<html>"
+    print "<head>"
+    print "<title>El Rey de la Colina</title>"
+    print "<link href='../style.css' rel='stylesheet' type='text/css'>"
+    print "<meta charset='utf-8'>"
+    print "<meta name='description' content='El Rey de la Colina: una ridícula lucha por permanecer en la cima. Juego online.'>"
+    print "<link href='http://fonts.googleapis.com/css?family=Aladin' rel='stylesheet' type='text/css'>"
+    print "<link href='http://fonts.googleapis.com/css?family=MedievalSharp' rel='stylesheet' type='text/css'>"
+    print "<link rel='icon' href='../icon.png' type='image/png'>"
+    print "<script src='../scripts.js'></script>"
+    print '<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-52132ca404e25fa7"></script>'
+    print '<script type="text/javascript">'
+    print '  addthis.layers({'
+    print "    'theme' : 'transparent',"
+    print "    'share' : {"
+    print "      'position' : 'left',"
+    print "      'numPreferredServices' : 4"
+    print "    }   "
+    print "  });"
+    print "</script>"
+    print "</head>"
+    print "<body onload='initialize()'>"
+    # --
+    h1 = None
+    h2 = None
+    if(incomingdata[1][0].encode('utf-8')=='?'):
+        h1 = ''
+        h2 = 'Nadie ha reclamado el trono hoy. ¡Reclámalo tú!'
+    else:
+        h1 = incomingdata[1][0].encode('utf-8')
+        if(incomingdata[1][1] == 'male'):
+            h2 = "es el rey de la colina"
+        else:
+            h2 = "es la reina de la colina"
+    print "<div id='cabecera'>"
+    print "    <img src='../goldl_25.png' alt='adorno izquierdo' class='decoracionNombre block'>"
+    print "    <h1 class='block'>",h1,"</h1>"
+    print "    <img src='../goldr_25.png' alt='adorno derecho' class='decoracionNombre block'>"
+    print "</div>"
+    print "<h2>"+h2+"</h2>"
+    # --
+    print "<img src='../logo_100.png' alt='boton reclamar trono' id='boton' onmouseover='this.src=\"../logo2_100.png\"' onmouseout='this.src=\"../logo_100.png\"'>"
+    print "<form id='formulario'>"
+    print "Escribe tu nombre: <input type=\"text\" name=\"nombre\">"
+    print "<input type=\"radio\" name=\"sexo\" value=\"male\" checked>Rey"
+    print "<input type=\"radio\" name=\"sexo\" value=\"female\">Reina"
+    print "</form>"
+    print "<p>Para reclamar el trono haz click en el botón superior o pulsa intro.</p>"
+    print "<audio id='sonido' preload='auto'><source src='../trompeta.ogg' type='audio/ogg'><source src='../trompeta.mp3' type='audio/mpeg'></audio>"
+    print "<br><br><br><br><p>La persona que más tiempo acumule al final del día se proclamará campeona.<p>"
+    print "<p>Queda menos de "+str(24-incomingdata[3]*24/100)+" horas para terminar el día.</p>"
+    print "<progress value='"+ str(incomingdata[3]) +"' max='100'></progress>"
+    print "<br><br><br><br>"
+    print "<div id='contenedor'>"
+    print "<div id='columnaIzquierda'>"
+    print "<h3>Resultados de hoy</h3>"
+    print "<ul>"
+    count = 0
+    try:
+        currentPlayersMaxTime = incomingdata[0][0][2]
+    except IndexError:
+        currentPlayersMaxTime = 0
+    for element in incomingdata[0]:
+        count += 1
+        time = element[2]
+        timeString = None
+        if (time < 60):
+            timeString = str(time)+" segundos"
+        elif (time < 3600):
+            timeString = str(time/60)+"min "+str(time%60)+"s"
+        else:
+            timeString = str(time/3600)+"h "+str((time%3600)/60)+"m "+str((time%60))+"s"        
+        
+        if (element[0].encode('utf-8') == incomingdata[1][0].encode('utf-8')):
+            print "<li>",count,".  <strong>",element[0].encode('utf-8'),"»»»</strong>       ("+timeString+")"
+            print "<progress class='dejugador' value='"+ str(time*100/currentPlayersMaxTime) +"' max='100'></progress></li>"
+        else:
+            print "<li>",count,".  ",element[0].encode('utf-8'),"       ("+timeString+")"
+            print "<progress class='dejugador' value='"+ str(time*100/currentPlayersMaxTime) +"' max='100'></progress></li>"
+    print "</ul>"
+    print "</div>"
+    print "<div id='columnaDerecha'>"
+    print "<h3>Top campeones histórico</h3>"
+    print "<ul>"
+    count = 0
+    for element in incomingdata[2]:
+        count += 1
+        print "<li class='listadotophistorico'>"+toRoman(count)+".  <strong>",element[0].encode('utf-8'),"</strong> "
+        print "<canvas class='vitrina'>"+str(element[1])+"</canvas>"
+        print "</li>"
+    print "</ul>"
+    print "</div>"
+    print "</div>"
+    print "<div id='opciones'>"
+    print "Opciones"
+    print "<p>Refrescar la página cada</p><p id='opcion10s' class='opcion opcioninactiva' onclick='setRefresh(10)'>10 segundos</p><p id='opcion30s' class='opcion opcioninactiva' onclick='setRefresh(30)'>30 segundos</p><p id='opcion0s' class='opcion opcioninactiva' onclick='setRefresh(0)'>nunca</p>"
+    print "<p>Sonidos</p><p id='opcionSonido' class='opcion opcioninactiva' onclick='setSound(1)'>cambios de trono<p><p id='opcionMudo' class='opcion opcioninactiva' onclick='setSound(0)'>ninguno<p>"
+    print "</div>"
+    print "<footer>El Rey de la Colina.<br>Una lucha diaria por permanecer en la cima.</footer>"
+    print "<p>Publicidad</p>"
+    # google adsense block
+    print '<script type="text/javascript"><!--'
+    print 'google_ad_client = "ca-pub-5964186781096205";'
+    print '/* elreydelacolina */'
+    print 'google_ad_slot = "4537015943";'
+    print 'google_ad_width = 728;'
+    print 'google_ad_height = 90;'
+    print '//-->'
+    print '</script>'
+    print '<script type="text/javascript"'
+    print 'src="http://pagead2.googlesyndication.com/pagead/show_ads.js">'
+    print '</script>'
+    # ---- ---- ---- ----
+    print "<p>Actualizaciones</p>"
+    print "<p class='changelist'>11/08/2013 - Añadida opción de aviso sonoro cuando se produce un cambio de trono.</p>"
+    print "<p class='changelist'>08/08/2013 - Añadido menú de opciones de refresco. El ranking de campeones ahora muestra números romanos.</p>"
+    print "</body>"
+    print "</html>"
